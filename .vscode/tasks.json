@@ -1,0 +1,39 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+      {
+          "label": "Build ARM assembly",
+          "type": "shell",
+          "command": "arm-none-eabi-as",
+          "args": [
+              "-o",
+              "${fileDirname}/${fileBasenameNoExtension}.o",
+              "${file}"
+          ],
+          "group": {
+              "kind": "build",
+              "isDefault": true
+          }
+      },
+      {
+          "label": "Link ARM assembly",
+          "type": "shell",
+          "command": "arm-none-eabi-ld",
+          "args": [
+              "-o",
+              "${fileDirname}/${fileBasenameNoExtension}",
+              "${fileDirname}/${fileBasenameNoExtension}.o"
+          ],
+          "dependsOn": "Build ARM assembly"
+      },
+      {
+          "label": "Run ARM assembly",
+          "type": "shell",
+          "command": "qemu-arm",
+          "args": [
+              "${fileDirname}/${fileBasenameNoExtension}"
+          ],
+          "dependsOn": "Link ARM assembly"
+      }
+  ]
+}
